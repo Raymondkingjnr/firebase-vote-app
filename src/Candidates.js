@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export const Candidates = () => {
   const { loading, candidates } = FetchData();
+
   if (loading) {
     <div>
       <h1>Loading...</h1>
