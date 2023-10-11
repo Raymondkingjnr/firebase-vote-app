@@ -25,7 +25,7 @@ export const Candidates = () => {
               </p>
               <p> category : {category}</p>
               <p>
-                votes : <span>{votes}</span>
+                votes : <span>{String(votes)}</span>
               </p>
 
               <Link to={`/payment/${id}`} className="vote-btn">

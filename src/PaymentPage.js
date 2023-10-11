@@ -59,7 +59,7 @@ export const PaymentPage = () => {
 
   const handleFlutterPayment = useFlutterwave(config);
 
-  const handlePaymentCallbsck = (response) => {
+  const handlePaymentCallback = (response) => {
     console.log(response);
 
     const paymentSuccssfull = response?.status === "completed";
@@ -68,18 +68,25 @@ export const PaymentPage = () => {
       const candidateId = id;
       const numberOfVote = formData?.No_votes;
 
+      console.log(candidateId);
+
       const candidateRef = doc(db, "data", candidateId);
 
       getDoc(candidateRef).then((docSnapshot) => {
         if (docSnapshot.exists()) {
-          let currentVote = docSnapshot.data().votes || 0;
-          console.log("Current Votes:", currentVote);
-          updateDoc(candidateRef, { votes: currentVote + numberOfVote })
+          let currentVote = docSnapshot.data().votes || "0";
+          const currentVoteCount = Number(currentVote);
+
+          console.log("Current Votes:", currentVoteCount);
+
+          updateDoc(candidateRef, {
+            votes: currentVoteCount + numberOfVote,
+          })
             .then(() => {
               console.log("Votes Updated!");
             })
             .catch((error) => {
-              console.log("error adding votes", error);
+              console.log("error adding votes :", error);
             });
         }
       });
@@ -141,7 +148,7 @@ export const PaymentPage = () => {
         <button
           onClick={() => {
             handleFlutterPayment({
-              callback: handlePaymentCallbsck,
+              callback: handlePaymentCallback,
               onClose: () => {
                 console.log("You close me ooo");
               },
