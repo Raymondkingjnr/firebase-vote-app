@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { db } from "./config";
+import { db } from "../configs/config";
 import { collection, getDocs } from "firebase/firestore";
 
 export const FetchData = () => {
   const [loading, setLoading] = useState(true);
   const [candidates, setCandidates] = useState(null);
-  //   const colRef = collection(db, "data");
+
   const colRef = collection(db, "data");
 
   const fetchdata = async () => {

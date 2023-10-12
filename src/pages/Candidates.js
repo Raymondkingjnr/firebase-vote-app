@@ -1,5 +1,5 @@
 import React from "react";
-import { FetchData } from "./FetchData";
+import { FetchData } from "../components/FetchData";
 import { Link } from "react-router-dom";
 
 export const Candidates = () => {
@@ -25,7 +25,7 @@ export const Candidates = () => {
               </p>
               <p> category : {category}</p>
               <p>
-                votes : <span>{String(votes)}</span>
+                votes : <span>{Number(votes)}</span>
               </p>
 
               <Link to={`/payment/${id}`} className="vote-btn">
