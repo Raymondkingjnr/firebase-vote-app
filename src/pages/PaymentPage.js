@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { db } from "../configs/config";
-import { Firestore, doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { closePaymentModal } from "flutterwave-react-v3";
 import { PaymentForm } from "../components/PaymentForm";
 import { PaymentConfig } from "../configs/PaymentConfig";
@@ -38,7 +38,7 @@ export const PaymentPage = () => {
       }
     };
     fetchSingleData();
-  }, []);
+  }, [id]);
 
   const handlePaymentCallback = (response) => {
     console.log(response);
@@ -55,13 +55,16 @@ export const PaymentPage = () => {
 
       getDoc(candidateRef).then((docSnapshot) => {
         if (docSnapshot.exists()) {
-          let currentVote = docSnapshot.data().votes || 0;
+          let currentVote = docSnapshot.data().votes;
           const currentVoteCount = Number(currentVote);
 
           console.log("Current Votes:", currentVoteCount);
+          const newVotes = Number((currentVote += numberOfVote));
+
+          console.log(newVotes);
 
           updateDoc(candidateRef, {
-            votes: Number(currentVoteCount + numberOfVote),
+            votes: Number(newVotes),
           })
             .then(() => {
               console.log("Votes Updated!");
