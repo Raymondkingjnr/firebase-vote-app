@@ -102,4 +102,4 @@ export const PaymentPage = () => {
 // (response) => {
 //   console.log(response);
 //   closePaymentModal();
-// },
+// }
