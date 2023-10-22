@@ -5,10 +5,12 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { closePaymentModal } from "flutterwave-react-v3";
 import { PaymentForm } from "../components/PaymentForm";
 import { PaymentConfig } from "../configs/PaymentConfig";
+import { FetchData } from "../components/FetchData";
 
 export const PaymentPage = () => {
+  const { candidates } = FetchData();
   const { id } = useParams();
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -30,6 +32,7 @@ export const PaymentPage = () => {
       try {
         const docRef = doc(db, "data", id);
         const docSnapshot = await getDoc(docRef);
+
         if (docSnapshot.exists()) {
           setData(docSnapshot.data());
         }
@@ -39,6 +42,52 @@ export const PaymentPage = () => {
     };
     fetchSingleData();
   }, [id]);
+
+  // const handlePaymentCallback = (response) => {
+
+  // const handlePaymentCallback = (response) => {
+  //   console.log(response);
+
+  //   const paymentSuccessful = response?.status === "completed";
+
+  //   if (paymentSuccessful) {
+  //     const numberOfVotes = formData?.No_votes;
+
+  //     candidates.forEach((candidate, index) => {
+  //       const candidateId = candidate.id;
+
+  //       const candidateRef = doc(db, "data", candidateId);
+
+  //       getDoc(candidateRef).then((docSnapshot) => {
+  //         if (docSnapshot.exists()) {
+  //           let currentVote = docSnapshot.data().votes;
+  //           const currentVoteCount = Number(currentVote);
+
+  //           const newVotes = currentVoteCount + numberOfVotes ;
+
+  //           updateDoc(candidateRef, {
+  //             votes: newVotes,
+  //           })
+  //             .then(() => {
+  //               console.log(
+  //                 "Votes Updated for candidate with ID:",
+  //                 candidateId
+  //               );
+  //             })
+  //             .catch((error) => {
+  //               console.log(
+  //                 "Error adding votes for candidate with ID:",
+  //                 candidateId,
+  //                 error
+  //               );
+  //             });
+  //         }
+  //       });
+  //     });
+  //   }
+
+  //   closePaymentModal();
+  // };
 
   const handlePaymentCallback = (response) => {
     console.log(response);
